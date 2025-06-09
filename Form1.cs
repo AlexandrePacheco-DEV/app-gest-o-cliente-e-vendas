@@ -2,6 +2,8 @@ namespace gestão_de_negócio_clientes_e_vendas
 {
     public partial class Form1 : Form
     {
+        private static string? filePath;
+
         public Form1()
         {
             InitializeComponent();
@@ -63,6 +65,19 @@ namespace gestão_de_negócio_clientes_e_vendas
                     u.Password == password);
             }
         }
+        public static void EnsureCsvExists()
+        {
+            string folder = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            if (!File.Exists(filePath))
+            {
+                // Cria CSV com cabeçalho
+                File.WriteAllText(filePath, "usuario,senha" + Environment.NewLine);
+            }
+        }
 
         private void btn_login_Click(object sender, EventArgs e)
         {
@@ -72,7 +87,7 @@ namespace gestão_de_negócio_clientes_e_vendas
             if (AuthService.Authenticate(username, password))
             {
                 this.Hide();
-                cadastros main = new cadastros();
+                cadastro_clientes main = new cadastro_clientes();
                 main.ShowDialog();
                 this.Close();
             }
