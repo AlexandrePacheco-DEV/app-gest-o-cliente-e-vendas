@@ -40,7 +40,9 @@ namespace gestão_de_negócio_clientes_e_vendas
                     txtEstado.Text = endereco.uf;
                 }
             }
+
         }
+
             public class ViaCepResponse
         {
             public string cep { get; set; }
