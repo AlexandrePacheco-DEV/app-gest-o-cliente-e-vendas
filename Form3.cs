@@ -175,5 +175,26 @@ namespace gestão_de_negócio_clientes_e_vendas
             PassUsuario.Clear();
             usuarioSenha.Clear();
         }
+
+        private void btn_excluirUsuario_Click(object sender, EventArgs e)
+        {
+            if (listUsuarios.SelectedItem == null) return;
+            string usuario = listUsuarios.SelectedItem.ToString();
+            if (usuario == "ADMIN") return;
+
+            var linhas = File.ReadAllLines(caminhoCsv);
+            using (StreamWriter sw = new StreamWriter(caminhoCsv))
+            {
+                foreach (var linha in linhas)
+                {
+                    if (!linha.StartsWith(usuario + ","))
+                    {
+                        sw.WriteLine(linha);
+                    }
+                }
+            }
+            CarregarUsuarios();
+        }
     }
-}
+ }
+

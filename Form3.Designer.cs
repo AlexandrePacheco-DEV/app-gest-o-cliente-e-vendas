@@ -44,6 +44,7 @@
             btn_excluirUsuario.TabIndex = 0;
             btn_excluirUsuario.Text = "EXCLUIR";
             btn_excluirUsuario.UseVisualStyleBackColor = true;
+            btn_excluirUsuario.Click += btn_excluirUsuario_Click;
             // 
             // btn_adicionarUsuario
             // 
