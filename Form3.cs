@@ -12,11 +12,24 @@ namespace gestão_de_negócio_clientes_e_vendas
 {
     public partial class cadastro_users : Form
     {
+        private string caminhoCsv = "usuarios.csv";
+
         private object currentUser;
 
         public cadastro_users(string currentUser)
         {
             InitializeComponent();
+            CarregarUsuarios();
+        }
+        private void CarregarUsuarios()
+        {
+            listUsuarios.Items.Clear();
+            if (!File.Exists(caminhoCsv)) return;
+            foreach (var linha in File.ReadAllLines(caminhoCsv))
+            {
+                var partes = linha.Split(',');
+                listUsuarios.Items.Add(partes[0]);
+            }
         }
         public class UserModel
         {
@@ -27,15 +40,21 @@ namespace gestão_de_negócio_clientes_e_vendas
             {
                 Username = username;
                 Password = password;
+
             }
         }
 
         private void cadastro_users_Load(object sender, EventArgs e)
         {
+            cadastro_users_Load(sender, e, currentUser);
+        }
+
+        private void cadastro_users_Load(object sender, EventArgs e, object? currentUser)
+        {
             lbl_user.Text = "Usuário logado: " + (currentUser ?? "desconhecido");
             LoadUsuarios();
 
-            if (!string.Equals(currentUser, "ADMIN", StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals((string?)currentUser, "ADMIN", StringComparison.OrdinalIgnoreCase))
             {
                 btn_adicionarUsuario.Enabled = false;
                 btn_excluirUsuario.Enabled = false;
@@ -134,6 +153,27 @@ namespace gestão_de_negócio_clientes_e_vendas
                     SaveUsuarios(users);
                 }
             }
+        }
+
+        private void btn_adicionarUsuario_Click(object sender, EventArgs e)
+        {
+            string usuario = PassUsuario.Text;
+            string senha = usuarioSenha.Text;
+
+            if (usuario == "ADMIN")
+            {
+                MessageBox.Show("Não é permitido sobrescrever o ADMIN.");
+                return;
+            }
+
+            using (StreamWriter sw = File.AppendText(caminhoCsv))
+            {
+                sw.WriteLine($"{usuario},{senha}");
+            }
+
+            CarregarUsuarios();
+            PassUsuario.Clear();
+            usuarioSenha.Clear();
         }
     }
 }
