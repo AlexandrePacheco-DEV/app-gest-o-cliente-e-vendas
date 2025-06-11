@@ -12,9 +12,128 @@ namespace gestão_de_negócio_clientes_e_vendas
 {
     public partial class cadastro_users : Form
     {
+        private object currentUser;
+
         public cadastro_users(string currentUser)
         {
             InitializeComponent();
+        }
+        public class UserModel
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+
+            public UserModel(string username, string password)
+            {
+                Username = username;
+                Password = password;
+            }
+        }
+
+        private void cadastro_users_Load(object sender, EventArgs e)
+        {
+            lbl_user.Text = "Usuário logado: " + (currentUser ?? "desconhecido");
+            LoadUsuarios();
+
+            if (!string.Equals(currentUser, "ADMIN", StringComparison.OrdinalIgnoreCase))
+            {
+                btn_adicionarUsuario.Enabled = false;
+                btn_excluirUsuario.Enabled = false;
+            }
+        }
+
+        private void LoadUsuarios()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static class CsvHelper
+        {
+            public static readonly string UsuariosPath = @"C:\SeuCaminho\usuarios.csv";
+
+            public static void EnsureUsuariosCsvExists()
+            {
+                if (!File.Exists(UsuariosPath))
+                {
+                    using (var writer = new StreamWriter(UsuariosPath))
+                    {
+                        writer.WriteLine("usuario,senha");
+                        writer.WriteLine("ADMIN,123");
+                    }
+                }
+            }
+
+            public static List<UserModel> LoadUsuarios()
+            {
+                EnsureUsuariosCsvExists();
+
+                var users = new List<UserModel>();
+                var lines = File.ReadAllLines(UsuariosPath);
+
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    var parts = lines[i].Split(',');
+                    if (parts.Length >= 2)
+                    {
+                        var user = new UserModel(parts[0].Trim(), parts[1].Trim());
+                        users.Add(user);
+                    }
+                }
+
+                return users;
+            }
+
+            public static void SaveUsuarios(List<UserModel> users)
+            {
+                EnsureUsuariosCsvExists();
+
+                using (var writer = new StreamWriter(UsuariosPath, false))
+                {
+                    writer.WriteLine("usuario,senha");
+
+                    foreach (var user in users)
+                    {
+                        writer.WriteLine($"{user.Username},{user.Password}");
+                    }
+                }
+            }
+
+            public static void AddUsuario(string username, string password)
+            {
+                var users = LoadUsuarios();
+
+                if (users.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase)))
+                    return;
+
+                users.Add(new UserModel(username, password));
+                SaveUsuarios(users);
+            }
+
+            public static void DeleteUsuario(string username)
+            {
+                var users = LoadUsuarios();
+
+                var userToRemove = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+                if (userToRemove != null && userToRemove.Username.ToUpper() != "ADMIN")
+                {
+                    users.Remove(userToRemove);
+                    SaveUsuarios(users);
+                }
+            }
+
+            public static void UpdateUsuarioPassword(string username, string newPassword)
+            {
+                var users = LoadUsuarios();
+
+                var userToUpdate = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+                if (userToUpdate != null)
+                {
+                    userToUpdate.Password = newPassword;
+                    SaveUsuarios(users);
+                }
+            }
         }
     }
 }

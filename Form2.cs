@@ -15,6 +15,7 @@ namespace gestão_de_negócio_clientes_e_vendas
         public cadastro_clientes()
         {
             InitializeComponent();
+
         }
 
         private void cadastro_clientes_Load(object sender, EventArgs e)
@@ -36,8 +37,16 @@ namespace gestão_de_negócio_clientes_e_vendas
 
         private void cadastro_usuarios_Click(object sender, EventArgs e)
         {
-            cadastro_users form = new cadastro_users(currentUser);
-            form.ShowDialog();
+            if (currentUser == "ADMIN")
+            {
+                new clientes().ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Apenas o ADMIN pode acessar este módulo.");
+            }
+
+
         }
 
         private void btn_pedidos_Click(object sender, EventArgs e)

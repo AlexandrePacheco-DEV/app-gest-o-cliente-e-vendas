@@ -96,6 +96,18 @@ namespace gestão_de_negócio_clientes_e_vendas
                 MessageBox.Show("Usuário ou senha inválidos!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private bool ValidarCredenciais(string usuario, string senha)
+        {
+            string caminho = "usuarios.csv";
+            if (!File.Exists(caminho)) return false;
+
+            foreach (var linha in File.ReadAllLines(caminho))
+            {
+                var partes = linha.Split(',');
+                if (partes[0] == usuario && partes[1] == senha) return true;
+            }
+            return false;
+        }
     }
-    }
+}
 
