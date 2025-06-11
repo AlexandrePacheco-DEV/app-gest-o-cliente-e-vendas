@@ -43,7 +43,7 @@ namespace gestão_de_negócio_clientes_e_vendas
 
         }
 
-            public class ViaCepResponse
+        public class ViaCepResponse
         {
             public string cep { get; set; }
             public string logradouro { get; set; }
@@ -56,6 +56,30 @@ namespace gestão_de_negócio_clientes_e_vendas
             public string ddd { get; set; }
             public string siafi { get; set; }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string linha = string.Join(",",
+                txtNome.Text,
+                txtCPF.Text,
+                txtEmail.Text,
+                txtCep.Text,
+                txtLogradouro.Text,
+                txtBairro.Text,
+                txtCidade.Text,
+                txtEstado.Text,
+                txtTelefone.Text,
+                txtWhatsapp.Text);
+
+            using (StreamWriter sw = File.AppendText(caminho))
+            {
+                sw.WriteLine(linha);
+            }
+            MessageBox.Show("Cliente cadastrado com sucesso.");
+        }
     }
-    
+
 }
+    
+
+
