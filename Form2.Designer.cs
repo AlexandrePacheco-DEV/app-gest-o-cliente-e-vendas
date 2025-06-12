@@ -88,6 +88,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(351, 433);
             Controls.Add(cadastro_usuarios);
             Controls.Add(btn_pedidos);
