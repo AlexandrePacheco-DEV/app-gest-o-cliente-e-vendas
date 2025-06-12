@@ -51,7 +51,7 @@ namespace gestão_de_negócio_clientes_e_vendas
 
         private void btn_pedidos_Click(object sender, EventArgs e)
         {
-            cadastro_pedidos form = new cadastro_pedidos();
+            cadastro_pedidos form= new cadastro_pedidos();
             form.ShowDialog();
         }
 
