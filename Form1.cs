@@ -53,18 +53,29 @@ namespace gestão_de_negócio_clientes_e_vendas
         }
         public static class AuthService
         {
+            public static string CurrentUser { get; private set; } = "";
+
             public static bool Authenticate(string username, string password)
             {
                 if (username.ToUpper() == "ADMIN" && password == "123")
+                {
+                    CurrentUser = "ADMIN";
                     return true;
+                }
+
 
                 var users = CsvHelper.LoadUsers();
-
-                return users.Any(u =>
-                    u.Username.Equals(username, System.StringComparison.OrdinalIgnoreCase) &&
+                bool valid = users.Any(u =>
+                    u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) &&
                     u.Password == password);
-            }
+
+                if (valid)
+                    CurrentUser = username;
+
+                return valid;
+            
         }
+             }
         public static void EnsureCsvExists()
         {
             string folder = Path.GetDirectoryName(filePath);
@@ -74,7 +85,7 @@ namespace gestão_de_negócio_clientes_e_vendas
 
             if (!File.Exists(filePath))
             {
-                // Cria CSV com cabeçalho
+                
                 File.WriteAllText(filePath, "usuario,senha" + Environment.NewLine);
             }
         }
@@ -87,7 +98,7 @@ namespace gestão_de_negócio_clientes_e_vendas
             if (AuthService.Authenticate(username, password))
             {
                 this.Hide();
-                cadastro_clientes main = new cadastro_clientes();
+                cadastro_clientes main = new cadastro_clientes(AuthService.CurrentUser);
                 main.ShowDialog();
                 this.Close();
             }

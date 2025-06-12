@@ -71,5 +71,24 @@ namespace gestão_de_negócio_clientes_e_vendas
             lblTotalPedido.Text = $"Total: R$ {total:F2}";
         }
 
+        private void btnSalvarPedido_Click(object sender, EventArgs e)
+        {
+            string codigoPedido = txtCodigoProduto.Text;
+            string cpf = txtCPFCliente.Text;
+            decimal total = itensPedido.Sum(i => decimal.Parse(i.Split(',')[4]));
+
+            File.AppendAllText(caminhoPedidos, $"{codigoPedido},{cpf},{total:F2}\n");
+            foreach (var item in itensPedido)
+            {
+                var partes = item.Split(',');
+                File.AppendAllText(caminhoItens, $"{codigoPedido},{partes[0]},{partes[3]}\n");
+            }
+
+            MessageBox.Show("Pedido salvo com sucesso!");
+            itensPedido.Clear();
+            listItensPedido.Items.Clear();
+            lblTotalPedido.Text = "Total: R$ 0,00";
+        
+    }
     }
 }

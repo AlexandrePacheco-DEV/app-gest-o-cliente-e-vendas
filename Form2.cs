@@ -37,7 +37,7 @@ namespace gestão_de_negócio_clientes_e_vendas
 
         private void cadastro_usuarios_Click(object sender, EventArgs e)
         {
-            if (currentUser == "ADMIN")
+            if (currentUser.ToUpper() == "ADMIN")
             {
                 new clientes().ShowDialog();
             }

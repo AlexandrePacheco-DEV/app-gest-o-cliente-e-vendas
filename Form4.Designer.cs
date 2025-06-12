@@ -137,6 +137,7 @@
             btnSalvarPedido.TabIndex = 10;
             btnSalvarPedido.Text = "SALVAR PEDIDO";
             btnSalvarPedido.UseVisualStyleBackColor = true;
+            btnSalvarPedido.Click += btnSalvarPedido_Click;
             // 
             // listItensPedido
             // 
