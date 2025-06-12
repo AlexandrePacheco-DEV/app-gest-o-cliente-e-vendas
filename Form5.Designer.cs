@@ -141,7 +141,7 @@
             Controls.Add(btnAdicionarProdutos);
             Controls.Add(listProdutos);
             Name = "cadastro_produtos";
-            Text = "Form5";
+            Text = "CADASTRO PRODUTOS";
             Load += cadastro_produtos_Load;
             ResumeLayout(false);
             PerformLayout();

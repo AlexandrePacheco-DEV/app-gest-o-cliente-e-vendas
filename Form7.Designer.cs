@@ -261,7 +261,7 @@
             Controls.Add(txtLogradouro);
             Controls.Add(btn_buscarCep);
             Name = "clientes";
-            Text = "Form7";
+            Text = "CADASTRO CLIENTES";
             Load += clientes_Load;
             ResumeLayout(false);
             PerformLayout();

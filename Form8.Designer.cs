@@ -124,7 +124,7 @@
             Controls.Add(txt_BuscarCpf);
             Controls.Add(btn_buscarPedidos);
             Name = "rastrear_pedido";
-            Text = "Form8";
+            Text = "RASTREAR PEDIDOS";
             ResumeLayout(false);
             PerformLayout();
         }
