@@ -65,5 +65,11 @@ namespace gestão_de_negócio_clientes_e_vendas
                 AtualizarTotalPedido();
             }
         }
+        private void AtualizarTotalPedido()
+        {
+            decimal total = itensPedido.Sum(item => decimal.Parse(item.Split(',')[4]));
+            lblTotalPedido.Text = $"Total: R$ {total:F2}";
+        }
+
     }
 }
