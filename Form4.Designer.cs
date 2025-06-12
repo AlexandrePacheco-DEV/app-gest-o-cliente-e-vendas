@@ -166,7 +166,7 @@
             Controls.Add(lblNomeCliente);
             Controls.Add(txtCPFCliente);
             Name = "cadastro_pedidos";
-            Text = "Form4";
+            Text = "CADASTRO DE PEDIDOS";
             Load += cadastro_pedidos_Load;
             ResumeLayout(false);
             PerformLayout();

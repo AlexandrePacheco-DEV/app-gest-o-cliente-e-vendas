@@ -90,7 +90,7 @@
             Controls.Add(txt_usuario);
             Controls.Add(btn_login);
             Name = "Form1";
-            Text = "Form1";
+            Text = "LOGIN ";
             Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
